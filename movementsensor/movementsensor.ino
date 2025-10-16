@@ -1,9 +1,21 @@
+/*
+  * https://projecthub.arduino.cc/electronicsfan123/interfacing-arduino-uno-with-pir-motion-sensor-593b6b
+  * */
+
+const int movementSensor = 8;
+const int led = 9;
+
+int movementState = LOW;
+
 void setup() {
-  // put your setup code here, to run once:
+  pinMode(movementSensor, INPUT);
+  pinMode(led, OUTPUT);
+  Serial.begin(9600);
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  movementState = digitalRead(movementSensor);
 
+  Serial.println(movementState);
 }
