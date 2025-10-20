@@ -7,6 +7,8 @@ const int led = 9;
 
 int movementState = LOW;
 
+int lastMove;
+
 void setup() {
   pinMode(movementSensor, INPUT);
   pinMode(led, OUTPUT);
@@ -16,6 +18,11 @@ void setup() {
 
 void loop() {
   movementState = digitalRead(movementSensor);
-
   Serial.println(movementState);
+
+  if (movementState) {
+    lastMove = millis();
+  }
+
+  digitalWrite(led, millis() < lastMove + 2000);
 }
