@@ -41,21 +41,41 @@ float sensorGetDistance() {
 
 // Piezo
 const int piezoPin = 6;
-const bool alarmOn = true;
+bool alarmOn = false;
+bool isLocked = false;
+unsigned long alarmTime;
+bool tonePlaying = false;
+
+// Movementsensor
+const int movementSensor = 8;
+int movementState = LOW;
+unsigned long lastMove;
+
+// Button
+const int buttonPin = 4;
+int buttonState = LOW;
+int lastButtonState = LOW;
 
 void setup() {
+  Serial.begin(9600);
+
   servo.attach(servoPin);
 
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 
+  // Alarm
   pinMode(piezoPin, OUTPUT);
+  pinMode(movementSensor, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
 }
 
-
 void loop() {
-  distance = sensorGetDistance();
+  delay(100);
   unsigned long now = millis();
+
+  // Door
+  distance = sensorGetDistance();
   if (distance < 50) {
     if (!doorOpen) {
       openDoor();
@@ -66,7 +86,8 @@ void loop() {
     closeDoor();
   }
 
-  if (alarmOn) {
+  // Alarm
+  if (alarmOn && isLocked && !tonePlaying) {
     if (now / 500 % 2 == 0) {
       tone(piezoPin, 440);
     }
@@ -74,6 +95,48 @@ void loop() {
       tone(piezoPin, 622); // tritone
     }
   }
+  else {
+    noTone(piezoPin);
+    alarmOn = false;
+  }
 
-  delay(100);
+  movementState = digitalRead(movementSensor);
+  if (movementState) {
+    lastMove = now;
+  }
+  alarmOn = now < lastMove + 2000;
+
+  buttonState = digitalRead(buttonPin);
+  if (buttonState == LOW && lastButtonState == HIGH) {
+    noTone(piezoPin);
+    isLocked = !isLocked;
+    alarmTime = now;
+    tonePlaying = true;
+  }
+  lastButtonState = buttonState;
+
+  if (tonePlaying && isLocked) {
+    if (now >= alarmTime + 500) {
+      noTone(piezoPin);
+      tonePlaying = false;
+    }
+    else if (now >= alarmTime + 300) {
+      tone(piezoPin, 660);
+    }
+    else if (now >= alarmTime + 100) {
+      tone(piezoPin, 990);
+    }
+  }
+  if (tonePlaying && !isLocked) {
+    if (now >= alarmTime + 500) {
+      noTone(piezoPin);
+      tonePlaying = false;
+    }
+    else if (now >= alarmTime + 300) {
+      tone(piezoPin, 990);
+    }
+    else if (now >= alarmTime + 100) {
+      tone(piezoPin, 660);
+    }
+  }
 }
