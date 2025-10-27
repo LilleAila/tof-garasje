@@ -10,7 +10,7 @@ På utsiden av garasjen skal det være en fotoresistor som kobles opp mot utelys
 
 All elektronikken skal skjules med et dobbelt tak, slik at arduinoen, koblingsbrettet osv ligger mellom to tak og er skjult. Det vil være noe som må være synlig på utsiden, men så mye som mulig av ledningene og komponentene vil være skjult under taket.
 
-Vi bruker en eske for utskriftsark, og baserer designet rundt dette. Esken har størrelse $300\,\mathrm{mm} \times 240\,\mathrm{mm} \times 215\,\mathrm{mm}$
+Vi bruker en eske for utskriftsark, og baserer designet rundt dette. Esken har størrelse $300\,\mathrm{mm} \times 240\,\mathrm{mm} \times 215\,\mathrm{mm}$. Dette tilsvarer en skala på omtrent $1:15$ i forhold til en standard enkeltgarasje.
 
 ![arbeidstegning](assets/arbeidstegning.svg)
 
