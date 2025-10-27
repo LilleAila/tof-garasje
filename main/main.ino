@@ -39,11 +39,17 @@ float sensorGetDistance() {
   return distance;
 }
 
+// Piezo
+const int piezoPin = 6;
+const bool alarmOn = true;
+
 void setup() {
   servo.attach(servoPin);
 
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
+
+  pinMode(piezoPin, OUTPUT);
 }
 
 
@@ -56,8 +62,17 @@ void loop() {
       doorOpenedAt = now;
     }
   }
-  if (doorOpen && millis() - doorOpenedAt >= openDuration) {
+  if (doorOpen && now - doorOpenedAt >= openDuration) {
     closeDoor();
+  }
+
+  if (alarmOn) {
+    if (now / 500 % 2 == 0) {
+      tone(piezoPin, 440);
+    }
+    else {
+      tone(piezoPin, 622); // tritone
+    }
   }
 
   delay(100);
