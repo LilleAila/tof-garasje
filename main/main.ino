@@ -7,7 +7,6 @@
 // Door
 Servo servo;
 const int servoPin = 11;
-int pos = 90;
 bool doorOpen;
 unsigned long doorOpenedAt = 0;
 const unsigned long openDuration = 3000;
@@ -59,7 +58,7 @@ int lastButtonState = LOW;
 // Leds
 const int outLedPin = 13;
 const int inLedPin = 12;
-bool inLedOn = false;
+unsigned long lastOutLed;
 
 // Photoresistor
 const int photo = A0;
@@ -69,6 +68,7 @@ void setup() {
   Serial.begin(9600);
 
   servo.attach(servoPin);
+  closeDoor();
 
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
@@ -117,7 +117,12 @@ void loop() {
     lastMove = now;
   }
   alarmOn = now < lastMove + 2000;
-  inLedOn = now < lastMove + 10000 && !isLocked;
+  if (now < lastMove + 5000 && !isLocked) {
+    digitalWrite(inLedPin, HIGH);
+  }
+  else {
+    digitalWrite(inLedPin, LOW);
+  }
 
   buttonState = digitalRead(buttonPin);
   if (buttonState == LOW && lastButtonState == HIGH) {
@@ -153,12 +158,16 @@ void loop() {
     }
   }
 
-  if (inLedOn) {
-    digitalWrite(inLedPin, HIGH);
+  light = analogRead(photo);
+
+  if (light < 300) {
+    lastOutLed = now;
+  }
+
+  if (now <= lastOutLed + 3000) {
+    digitalWrite(outLedPin, HIGH);
   }
   else {
-    digitalWrite(inLedPin, LOW);
+    digitalWrite(outLedPin, LOW);
   }
-  light = analogRead(photo);
-  Serial.println(light);
 }
