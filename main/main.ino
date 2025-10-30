@@ -13,12 +13,12 @@ unsigned long doorOpenedAt = 0;
 const unsigned long openDuration = 3000;
 
 void openDoor() {
-  servo.write(90);
+  servo.write(75);
   doorOpen = true;
 }
 
 void closeDoor() {
-   servo.write(0);
+   servo.write(5);
    doorOpen = false;
 }
 
@@ -56,6 +56,15 @@ const int buttonPin = 4;
 int buttonState = LOW;
 int lastButtonState = LOW;
 
+// Leds
+const int outLedPin = 13;
+const int inLedPin = 12;
+bool inLedOn = false;
+
+// Photoresistor
+const int photo = A0;
+int light = 0;
+
 void setup() {
   Serial.begin(9600);
 
@@ -68,6 +77,9 @@ void setup() {
   pinMode(piezoPin, OUTPUT);
   pinMode(movementSensor, INPUT);
   pinMode(buttonPin, INPUT_PULLUP);
+
+  pinMode(outLedPin, OUTPUT);
+  pinMode(inLedPin, OUTPUT);
 }
 
 void loop() {
@@ -105,6 +117,7 @@ void loop() {
     lastMove = now;
   }
   alarmOn = now < lastMove + 2000;
+  inLedOn = now < lastMove + 10000 && !isLocked;
 
   buttonState = digitalRead(buttonPin);
   if (buttonState == LOW && lastButtonState == HIGH) {
@@ -139,4 +152,13 @@ void loop() {
       tone(piezoPin, 660);
     }
   }
+
+  if (inLedOn) {
+    digitalWrite(inLedPin, HIGH);
+  }
+  else {
+    digitalWrite(inLedPin, LOW);
+  }
+  light = analogRead(photo);
+  Serial.println(light);
 }
