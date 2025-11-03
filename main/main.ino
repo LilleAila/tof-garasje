@@ -4,6 +4,28 @@
   * */
 #include <Servo.h>
 
+// Door
+Servo servo;
+const int servoPin = 11;
+
+// Ultrasonic
+const int trigPin = 9;
+const int echoPin = 10;
+
+// Alarm
+const int outLedPin = 13;
+const int inLedPin = 12;
+
+// Leds
+const int piezoPin = 6;
+const int buttonPin = 4;
+
+// Movementsensor
+const int movementSensor = 8;
+unsigned long lastMove;
+
+unsigned long now;
+
 void setup() {
   Serial.begin(9600);
 
@@ -27,7 +49,7 @@ void setup() {
 
 void loop() {
   delay(100);
-  unsigned long now = millis();
+  now = millis();
 
   handleDoor();
   handleAlarm();

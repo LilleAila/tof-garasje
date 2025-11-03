@@ -1,10 +1,8 @@
 // Button
-const int buttonPin = 4;
 int buttonState = LOW;
 int lastButtonState = LOW;
 
 // Piezo
-const int piezoPin = 6;
 bool alarmOn = false;
 bool isLocked = false;
 unsigned long alarmTime;

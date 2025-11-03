@@ -1,6 +1,4 @@
 // Ultrasonic distance sensor
-const int trigPin = 9;
-const int echoPin = 10;
 float duration, distance;
 
 float sensorGetDistance() {
@@ -16,8 +14,6 @@ float sensorGetDistance() {
 }
 
 // Door
-Servo servo;
-const int servoPin = 11;
 bool doorOpen;
 unsigned long doorOpenedAt = 0;
 const unsigned long openDuration = 3000;

@@ -1,6 +1,4 @@
 // Leds
-const int outLedPin = 13;
-const int inLedPin = 12;
 unsigned long lastOutLed;
 
 // Photoresistor
