@@ -1,5 +1,7 @@
 # TOF Smart garasje prosjekt
 
+Koden ligger i [/main/](main/).
+
 ## Kravspesifikasjoner
 
 Vi skal lage en modell av en smart garasje ved hjelp av arduino og diverse sensorer. Denne garasjen skal ha en dør styres av en servo med et 3d-printet komponent for å feste en papplate med riktig vinkel. Døren svinger opp mot utsiden når døren åpnes, og dette skjer automatisk ved hjelp av en ultralydsensor montert på utsiden av garasjen for å måle distansen til bilen. Hvis døren er låst, vil den ikke åpnes. Døren låses ved hjelp av en knapp som er koblet til arduino. Optimalt burde dette vært en form for kodelås heller enn en enkelt knapp, men det gjøres slik bare for å vise at det fungerer.

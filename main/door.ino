@@ -1,6 +1,7 @@
 // Ultrasonic distance sensor
 float duration, distance;
 
+// Read the distance from the pins of the sensor, and convert to a usable unit
 float sensorGetDistance() {
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -18,6 +19,7 @@ bool doorOpen;
 unsigned long doorOpenedAt = 0;
 const unsigned long openDuration = 3000;
 
+// Set the door to specific angles for open and closed
 void openDoor() {
   servo.write(75);
   doorOpen = true;
@@ -28,6 +30,7 @@ void closeDoor() {
    doorOpen = false;
 }
 
+// This function runs on every iteration, and opens / closes the door based on the sensor and the defined debounce time.
 void handleDoor() {
   distance = sensorGetDistance();
   if (distance < 50) {
