@@ -28,3 +28,9 @@ Vi bygger garasjen vår i en målestokk $1:15$ i forhold til en standart enkeltg
 - Piezo
 - Knapp
 - Ledninger
+
+## Funksjoner
+
+- Automatisk åpning av garasjedør
+- Alarmsystem
+- Automatiske inne- og utelys
